@@ -1,0 +1,27 @@
+---
+title: "Session 1&2"
+author: "Claudia Erber"
+date: "2023-05-17"
+output:
+  word_document: default
+  html_document: default
+---
+
+
+# **Statistical Analysis of Behavioral Data**
+
+I need to learn how to use RStudio and RMarkdown as part of my PhD course.  
+Dead line 02/06/2023
+
+
+
+## **Session Summary 1:**
+
+- Exercise 1 very difficult, watch the videos many times before hands on, and lost time
+- Exercise 2 it feels little bit easier, but had problems to find some symbols in my pc
+- Exercise 3 I got to solve the symbols problem and I used the link with the answers to get more familiar with the R language
+- Exercise 4 R Markdown still a challenge at moment but I like it!
+
+## **Session Summary 2:**
+-problem to get the doc.rmd in Git tab
+-created many repositories in Github
