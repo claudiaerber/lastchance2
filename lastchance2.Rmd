@@ -3,8 +3,8 @@ title: "Session 1&2"
 author: "Claudia Erber"
 date: "2023-05-17"
 output:
-  word_document: default
   html_document: default
+  word_document: default
 ---
 
 
@@ -23,5 +23,5 @@ Dead line 02/06/2023
 - Exercise 4 R Markdown still a challenge at moment but I like it!
 
 ## **Session Summary 2:**
--problem to get the doc.rmd in Git tab
+-problem to get the doc.rmd in Git tab   
 -created many repositories in Github
