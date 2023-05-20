@@ -148,7 +148,22 @@ squid$Fmonth <- factor(squid$month)
 squid$Fyear <- factor(squid$year)
 str(squid)
 boxplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML")
-#ERROR WITH:no package called vioplot
+#ERROR 
+# there were a series of issues
+# most important was that AQB text doesn't match with data file!!!
+# (apologies, didn't realize that)
+# the categorical variable is called shore not habitat
+# even with this change I couldn't get either is. or plot() to work
+# I used str() to confirm R thinks shore is a Factor with 2 levels (beach and rock)
+# I used vioplot becuase it is the last type of figure I used
+# important to note syntax here, have to tell it where data is with data = Wrst
+# it is the same with wilcox.test(), see syntax below 
+# without this information it returns the error you got
+#
+# called data frame Wrst for Wilcoxon rank sum test
+
+#Peter´s solution below
+
 library(vioplot)
 vioplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML", col = "lightblue")
 vioplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML", col = "lightblue")
@@ -187,3 +202,4 @@ str(Wrst)
 library(vioplot)
 vioplot(periwinkle ~ shore, data = Wrst,ylab = "Periwinkle", xlab = "Shore type",col = "lightblue")
 wilcox.test(periwinkle ~ shore, data = Wrst)
+
