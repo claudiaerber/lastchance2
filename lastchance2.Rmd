@@ -1,5 +1,5 @@
 ---
-title: "Session 1&2"
+title: "Session 1,2&3"
 author: "Claudia Erber"
 date: "2023-05-17"
 output:
@@ -24,4 +24,143 @@ Dead line 02/06/2023
 
 ## **Session Summary 2:**
 -problem to get the doc.rmd in Git tab   
--created many repositories in Github
+-created many repositories in Github  
+
+
+## **Session 3:**  
+
+##EX.3
+whale <- read.table('data/whaledata.txt', header = TRUE, stringsAsFactors = TRUE)
+#show the rows
+head(whale)
+#show the variables names
+names(whale)
+#show the structure of dataframe
+str(whale)
+#summary of the dataframe
+summary(whale)
+#using the square bracket [ ] to summarise and manipulate dataframes 
+# first 10 rows and first 4 columns
+whale.sub <- whale[1:10, 1:4]
+# all rows and columns 1, 3 and 6
+whale.num <- whale[, c(1, 3, 4)]
+# alternative way of indexing columns with named indexes
+whale.num <- whale[, c("month", "water.noise", "number.whales")]
+# first 50 rows and all columns
+whale.may <- whale[1:50, ]
+# excluding first 10 rows and last column using negative indexing
+whale.last <- whale[-c(1:10), -8]
+# better way if have lots of columns
+
+#ERROR ???
+
+# NOTE: this doesn't work for named columns
+whale.last <- whale[-c(1:10), -c("gradient")]
+
+#use conditional statements to select particular rows based on some logical criteria
+#at depths greater than 1200 m
+whale.1200 <- whale[whale$depth > 1200, ]
+#gradient steeper than 200 degrees
+whale.200 <- whale[whale$gradient > 200, ]
+#water noise level of ‘low’
+whale.low <- whale[whale$water.noise == "low", ]
+#water.noise level of ‘high’ in the month of ‘May’
+whale.h.may <- whale[whale$water.noise == "high" & whale$month == "May", ]
+#month of ‘October’, water noise level of ‘low’ and gradient greater than the median value of gradient (132)
+whale.subset <- whale[whale$month == "October" & whale$water.noise == "low" & whale$gradient > 132, ]
+#all observations from between latitudes 60.0 and 61.0 and longitudes -6.0 and -4.0
+whale.lat.long <- whale[whale$latitude > 60 & whale$latitude < 61 & whale$longitude > -6 & whale$longitude < -4, ]
+#all rows that do not have a water noise level of medium
+whale.nomed <- whale[whale$water.noise != "medium", ]
+whale.subset <- whale[whale$month == "October" & whale$water.noise == "low" & whale$gradient > median(whale$gradient), ]
+# results in a dataframe filled with NAs.
+whale.new <- whale[whale$depth > 1500 & whale$number.whales > mean(whale$number.whales), ]
+# the variable number.whales contains 1 NA value. By default the mean function will return an NA.  use the na.rm argument to
+# ignore NAs
+whale.new <- whale[whale$depth > 1500 & whale$number.whales > mean(whale$number.whales, na.rm = TRUE), ]
+#Use the subset() function to extract all rows in ‘May’ with a time at station less than 1000 minutes and a depth greater than 1000 m
+subset(whale, month == "May" & time.at.station < 1000 & depth > 1000)
+#to extract data collected in ‘October’ from latitudes greater than 61 degrees but only include the columns month, latitude, longitude and number.whales.
+subset(whale, month == "October" & latitude > 61, select = c("month", "latitude", "longitude", "number.whales"))
+#sort the rows based on the value of a variable (or combinations of variables).
+whale.depth.sort <- whale[order(whale$depth), ]
+# notice how the variable water.noise has been ordered - why?
+whale.sorted <- whale[order(whale$water.noise, whale$depth), ]
+# use '-' to reverse the order of depth
+whale.rev.sorted <- whale[order(whale$water.noise, -whale$depth), ]
+# mean time at station
+mean(whale$time.at.station)
+# median depth
+median(whale$depth)
+# number of observations
+length(whale$number.whales)
+#summarise one variable conditional on the level of another factor variable
+tapply(whale$number.whales, whale$water.noise, mean)
+# use the na.rm argument again
+tapply(whale$number.whales, whale$water.noise, mean, na.rm = TRUE)
+# alternative method using the with() function. see ?with
+with(whale, tapply(number.whales, water.noise, mean, na.rm = TRUE))
+# when using multiple factors these need to be supplied as a list
+tapply(whale$number.whales, list(whale$water.noise, whale$month), median, na.rm = TRUE)
+#Use the aggregate() function to calculate the mean of time at station, number of whales, depth and gradient for each level of water noise
+aggregate(whale[, c(2, 4, 7, 8)], by = list(water.noise = whale$water.noise), mean, na.rm = TRUE)
+#calculate the mean of time at station, number of whales, depth and gradient for each level of water noise for each month.
+aggregate(whale[, c(2, 4, 7, 8)], by = list(water.noise = whale$water.noise, month = whale$month), mean, na.rm = TRUE)
+#how to modify your previous code to display the mean values to 2 decimal places rather than the default of 3 decimal places.
+# optional question. Need to specify a function 'on the fly' using function(x){}
+aggregate(whale[, c(2, 4, 7, 8)], by = list(water.noise = whale$water.noise, month = whale$month), function(x) { round(mean(x, na.rm = TRUE), digits = 2) })
+#ERROR HERE!
+
+#determine the number of observations for each level of water noise
+# using table
+table(whale$water.noise)
+#number of observations for each combination of water noise and month    
+table(whale$water.noise, whale$month)
+# using xtabs
+xtabs(~ water.noise, data = whale)
+xtabs(~ month + water.noise, data = whale)
+
+#END OF EXERCISE at 1055 
+
+#time to break for other course class
+
+
+##EX.4
+
+#import the ‘squid1.txt’ file
+squid <- read.table('data/squid1.txt', header =TRUE, stringsAsFactors = TRUE)
+str(squid)
+summary(squid)
+#Plot the relationship between DML on the x axis and weight on the y axis
+##not linear
+plot(squid$DML, squid$weight)
+# vanilla pairs plot
+pairs(squid[, c(5, 8, 9, 11, 12, 13)])
+
+
+#Exercise 4.10
+#Create a boxplot to visualise the differences in DML at each maturity stage
+# note: Fmaturity is the recoded maturity.stage variable cerated in Q4
+str(squid)
+# convert variables to factors
+squid$Fmaturity <- factor(squid$maturity.stage)
+squid$Fmonth <- factor(squid$month)
+squid$Fyear <- factor(squid$year)
+str(squid)
+boxplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML")
+#ERROR WITH:no package called vioplot
+library(vioplot)
+vioplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML", col = "lightblue")
+vioplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML", col = "lightblue")
+#packege installed!
+# vanilla pairs plot
+pairs(squid[, c(5, 8, 9, 11, 12, 13)])
+pairs(squid[, c(5, 8, 9, 11, 12, 13)], diag.panel = 
+
+
+pairs(squid[, c(5, 8, 9, 11, 12, 13)], diag.panel = panel.hist, upper.panel = panel.cor, lower.panel = panel.smooth)
+
+##Summary:
+-Ex.3: took me some time but was all right
+-Ex.4:package dowloaded
+
