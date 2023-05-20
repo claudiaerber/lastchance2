@@ -164,3 +164,26 @@ pairs(squid[, c(5, 8, 9, 11, 12, 13)], diag.panel = panel.hist, upper.panel = pa
 -Ex.3: took me some time but was all right
 -Ex.4:package dowloaded
 
+##SESSION 4
+
+#Mean ranks (medians): a general non-parametric test for two groups (Mann–Whitney U, Wilcoxon rank sum test)
+#periwinkle  are in a single column
+#and the group to which each value belongs is in another column habitat
+# first plot the data, checking first to see that habitat is recognised as a factor:
+dataBox <- read.table('data/data-Box3.3c.txt', header = TRUE, stringsAsFactors = TRUE)
+head(dataBox)
+names(dataBox)
+str(dataBox)
+summary(dataBox)
+
+getwd()
+list.files()
+list.files(include.dirs = TRUE)
+dataBox <- read.table('data/data-Box3.3c.txt', header = TRUE, stringsAsFactors = TRUE)
+list.files()
+Wrst <- read.table('data/data-Box3.3c.txt', header = TRUE, stringsAsFactors = TRUE)
+summary(Wrst)
+str(Wrst)
+library(vioplot)
+vioplot(periwinkle ~ shore, data = Wrst,ylab = "Periwinkle", xlab = "Shore type",col = "lightblue")
+wilcox.test(periwinkle ~ shore, data = Wrst)
